@@ -33,6 +33,9 @@
       color: #001233;
       font-size: 2.8rem;
     }
+    h2 {
+      font-size: 2.8rem;
+    }
     p, label, select, input, textarea {
       color: #f1f1f1;
     }
@@ -83,6 +86,15 @@
       border-radius: 10px;
       background-color: white;
       color: black;
+    }
+    input[type="date"], input[type="time"] {
+      width: 150px;
+    }
+    input[type="date"]::-webkit-calendar-picker-indicator,
+    input[type="time"]::-webkit-calendar-picker-indicator {
+      font-size: 24px;
+      opacity: 1;
+      filter: invert(0);
     }
     button {
       background-color: #44bd32;
@@ -203,7 +215,7 @@
       }
 
       try {
-        await fetch('https://script.google.com/macros/s/AKfycbx8bRMSiENgH6Ly-AbPtBILlyhPD-v-slecM39mTQDb4z0Zx8rqvpcodfUaPScnIqyw/exec', {
+        await fetch('https://script.google.com/macros/s/AKfycby8Y4HLVwTnz78ho1eNSl92B4YJ54G5RTzKQnHIvSk70qXX6hupSHIgQ8PLaOqy12Dy/exec', {
           method: 'POST',
           body: new URLSearchParams([...data])
         });
@@ -212,11 +224,16 @@
         setTimeout(() => {
           confirmacion.style.display = 'none';
           form.reset();
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          window.location.href = 'https://www.instagram.com/scotmedia.agency/';
         }, 5000);
       } catch (err) {
         alert('Error al agendar. Intenta nuevamente.');
       }
+    });
+
+    window.addEventListener('load', () => {
+      const now = new Date().toLocaleString('en-US', { timeZone: 'America/Ojinaga' });
+      console.log('Ciudad Juárez time on load:', now);
     });
   </script>
 </body>
