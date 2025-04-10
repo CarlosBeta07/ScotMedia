@@ -4,10 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Agenda Scot Media</title>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Raleway', sans-serif;
     }
     body {
       margin: 0;
@@ -21,17 +22,16 @@
       padding: 20px;
       border-radius: 15px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+      text-align: center;
     }
     header img {
-      width: 150px;
+      width: 300px;
+      display: block;
+      margin: 0 auto 20px;
     }
-    h1 {
-      color: #001f3f;
-      font-size: 2.5rem;
-    }
-    h2 {
-      color: #001f3f;
-      font-size: 2.5rem;
+    h1, h2 {
+      color: #001233;
+      font-size: 2.8rem;
     }
     p, label, select, input, textarea {
       color: #f1f1f1;
@@ -48,6 +48,16 @@
       border-radius: 10px;
       margin-bottom: 10px;
       transition: background 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .accordion span {
+      display: inline-block;
+      transition: transform 0.3s ease;
+    }
+    .accordion.active span {
+      transform: rotate(90deg);
     }
     .accordion.active, .accordion:hover {
       background: #40739e;
@@ -102,7 +112,7 @@
       color: #00ff88;
     }
     .descripcion-quienes-somos {
-      font-size: 1.3rem;
+      font-size: 1.8rem;
     }
   </style>
 </head>
@@ -118,17 +128,17 @@
   </section>
 
   <section>
-    <button class="accordion">📎 Portfolio</button>
+    <button class="accordion">➡️ Portfolio <span>▶️</span></button>
     <div class="panel">
-      <p><a href="https://github.com/CarlosBeta07/ScotMedia/blob/main/Portfolio.pdf" target="_blank" style="color: #00a8ff">Descargar aquí Portfolio</a></p>
+      <img src="https://github.com/CarlosBeta07/ScotMedia/blob/main/Portfolio.jpg?raw=true" alt="Portfolio" class="package">
     </div>
 
-    <button class="accordion">📦 Paquete de redes</button>
+    <button class="accordion">➡️ Paquete de redes <span>▶️</span></button>
     <div class="panel">
       <img src="https://github.com/CarlosBeta07/ScotMedia/blob/main/Paquetes%20de%20redes.jpeg?raw=true" class="package">
     </div>
 
-    <button class="accordion">💼 Paquete de $3500</button>
+    <button class="accordion">➡️ Paquete de $3500 <span>▶️</span></button>
     <div class="panel">
       <img src="https://github.com/CarlosBeta07/ScotMedia/blob/main/3500.jpg?raw=true" class="package">
     </div>
@@ -166,6 +176,7 @@
       button.addEventListener('click', () => {
         button.classList.toggle('active');
         const panel = button.nextElementSibling;
+        const icon = button.querySelector('span');
         panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
       });
     });
@@ -194,10 +205,7 @@
       try {
         await fetch('https://script.google.com/macros/s/AKfycbx8bRMSiENgH6Ly-AbPtBILlyhPD-v-slecM39mTQDb4z0Zx8rqvpcodfUaPScnIqyw/exec', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(Object.fromEntries(data))
+          body: new URLSearchParams([...data])
         });
 
         confirmacion.style.display = 'block';
