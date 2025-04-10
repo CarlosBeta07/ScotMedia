@@ -1,117 +1,34 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Agenda Scot Media</title>
-  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    /* Tu código CSS aquí... */
-  </style>
-</head>
-<body>
-  <header>
-    <img src="https://github.com/CarlosBeta07/ScotMedia/blob/main/Logo.png?raw=true" alt="Logo Scot Media">
-    <h1>Agéndate con nosotros</h1>
-  </header>
+function doPost(e) {
+  try {
+    // Leer los datos JSON de la solicitud
+    const data = JSON.parse(e.postData.contents); // Parsear el contenido como JSON
 
-  <section>
-    <h2>¿Quiénes somos?</h2>
-    <p class="descripcion-quienes-somos">Somos una agencia de marketing digital especializada en redes sociales, diseño de sitios web, páginas de aterrizaje, automatizaciones y branding.</p>
-  </section>
+    // Obtener la hoja de Google Sheets
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const sheet = ss.getSheetByName("Datos"); // Asegúrate de que el nombre de la hoja sea "Datos"
 
-  <section>
-    <h2>📅 Agenda tu cita</h2>
-    <form id="appointmentForm">
-      <input type="text" name="nombre" placeholder="Nombre completo" required>
-      <input type="tel" name="telefono" placeholder="Teléfono" required>
-      <input type="email" name="correo" placeholder="Correo electrónico" required>
-      <select name="sexo" required>
-        <option value="">Sexo</option>
-        <option value="Femenino">Femenino</option>
-        <option value="Masculino">Masculino</option>
-        <option value="Otro">Otro</option>
-      </select>
-      <select name="giro" required>
-        <option value="">Giro de negocio</option>
-        <option value="Restaurante">Restaurante</option>
-        <option value="Moda">Moda</option>
-        <option value="Servicios">Servicios</option>
-        <option value="Otro">Otro</option>
-      </select>
-      <input type="date" name="fecha" required>
-      <input type="time" name="hora" required>
-      <textarea name="comentarios" placeholder="Comentarios"></textarea>
-      <button type="submit">Agendar cita</button>
-      <div class="confirmation" id="confirmacion">✅ Gracias, tu cita ha sido agendada.<br>⏳ Redirigiendo al inicio...<br>🎉 Te contactaremos pronto.</div>
-    </form>
-  </section>
+    // Agregar los datos a la hoja
+    sheet.appendRow([
+      new Date(), // Fecha de la solicitud
+      data.nombre,
+      data.telefono,
+      data.correo,
+      data.sexo,
+      data.giro,
+      data.fecha,
+      data.hora,
+      data.comentarios
+    ]);
 
-  <script>
-    document.querySelectorAll('.accordion').forEach(button => {
-      button.addEventListener('click', () => {
-        button.classList.toggle('active');
-        const panel = button.nextElementSibling;
-        const icon = button.querySelector('span');
-        panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
-      });
-    });
+    // Devolver una respuesta exitosa
+    return ContentService.createTextOutput(
+      JSON.stringify({ result: "success", data: data })
+    ).setMimeType(ContentService.MimeType.JSON);
 
-    const form = document.getElementById('appointmentForm');
-    const confirmacion = document.getElementById('confirmacion');
-
-    const citasOcupadas = [
-      { fecha: '2025-04-12', hora: '15:00' },
-      { fecha: '2025-04-13', hora: '11:00' }
-    ];
-
-    form.addEventListener('submit', async function(e) {
-      e.preventDefault();
-
-      const data = new FormData(form);
-      const fecha = data.get('fecha');
-      const hora = data.get('hora');
-
-      const citaYaOcupada = citasOcupadas.some(cita => cita.fecha === fecha && cita.hora === hora);
-      if (citaYaOcupada) {
-        alert('La fecha y hora seleccionadas ya están ocupadas. Por favor elige otra.');
-        return;
-      }
-
-      const formData = {
-        nombre: data.get('nombre'),
-        telefono: data.get('telefono'),
-        correo: data.get('correo'),
-        sexo: data.get('sexo'),
-        giro: data.get('giro'),
-        fecha: data.get('fecha'),
-        hora: data.get('hora'),
-        comentarios: data.get('comentarios')
-      };
-
-      try {
-        await fetch('https://script.google.com/macros/s/AKfycbzJBV2WQ09jmBd47-Q0OCPKlJT7RXsaHN0IZV67SmAL8P-MWuS3sQ2RWedsogFWDdkebg/exec', {
-          method: 'POST',
-          body: JSON.stringify(formData),
-          headers: { 'Content-Type': 'application/json' }
-        });
-
-        confirmacion.style.display = 'block';
-        setTimeout(() => {
-          confirmacion.style.display = 'none';
-          form.reset();
-          window.location.href = 'https://www.instagram.com/scotmedia.agency/';
-        }, 5000);
-      } catch (err) {
-        alert('Error al agendar. Intenta nuevamente.');
-        console.error(err);
-      }
-    });
-
-    window.addEventListener('load', () => {
-      const now = new Date().toLocaleString('en-US', { timeZone: 'America/Ojinaga' });
-      console.log('Ciudad Juárez time on load:', now);
-    });
-  </script>
-</body>
-</html>
+  } catch (error) {
+    // Manejo de errores
+    return ContentService.createTextOutput(
+      JSON.stringify({ result: "error", message: error.message })
+    ).setMimeType(ContentService.MimeType.JSON);
+  }
+}
