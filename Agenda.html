@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agenda Scot Media</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      margin: 0;
+      background-image: url('https://github.com/CarlosBeta07/ScotMedia/blob/main/Fondo.png?raw=true');
+      background-size: cover;
+      background-attachment: fixed;
+      color: #333;
+    }
+    header, section {
+      background: rgba(255, 255, 255, 0.9);
+      margin: 20px;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    header img {
+      width: 150px;
+    }
+    h1, h2 {
+      color: #2c3e50;
+    }
+    .accordion {
+      cursor: pointer;
+      padding: 15px;
+      border: none;
+      text-align: left;
+      outline: none;
+      font-size: 1.1rem;
+      background: #f1f1f1;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    .accordion.active, .accordion:hover {
+      background: #ddd;
+    }
+    .panel {
+      padding: 0 15px;
+      display: none;
+      overflow: hidden;
+    }
+    img.package {
+      max-width: 100%;
+      border-radius: 10px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    input, select, textarea {
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+    }
+    button {
+      background-color: #27ae60;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #2ecc71;
+    }
+    .confirmation {
+      color: green;
+      margin-top: 10px;
+      font-weight: bold;
+      display: none;
+    }
+    .date-status {
+      font-size: 0.9rem;
+      margin-top: -8px;
+    }
+    .taken {
+      color: red;
+    }
+    .available {
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="https://github.com/CarlosBeta07/ScotMedia/blob/main/Logo.png?raw=true" alt="Logo Scot Media">
+    <h1>Agenda Scot Media</h1>
+  </header>
+
+  <section>
+    <h2>¿Quiénes somos?</h2>
+    <p>Somos una agencia de marketing digital especializada en redes sociales, diseño de sitios web, páginas de aterrizaje, automatizaciones y branding.</p>
+  </section>
+
+  <section>
+    <button class="accordion">📎 Portfolio</button>
+    <div class="panel">
+      <p><a href="https://github.com/CarlosBeta07/ScotMedia/blob/main/Portfolio.pdf" target="_blank">Descargar aquí Portfolio</a></p>
+    </div>
+
+    <button class="accordion">📦 Paquete de redes</button>
+    <div class="panel">
+      <img src="https://github.com/CarlosBeta07/ScotMedia/blob/main/Paquetes%20de%20redes.jpeg?raw=true" class="package">
+    </div>
+
+    <button class="accordion">💼 Paquete de $3500</button>
+    <div class="panel">
+      <img src="https://github.com/CarlosBeta07/ScotMedia/blob/main/3500.jpg?raw=true" class="package">
+    </div>
+  </section>
+
+  <section>
+    <h2>📅 Agenda tu cita</h2>
+    <form id="appointmentForm">
+      <input type="text" name="nombre" placeholder="Nombre completo" required>
+      <input type="tel" name="telefono" placeholder="Teléfono" required>
+      <input type="email" name="correo" placeholder="Correo electrónico" required>
+      <select name="sexo" required>
+        <option value="">Sexo</option>
+        <option value="Femenino">Femenino</option>
+        <option value="Masculino">Masculino</option>
+        <option value="Otro">Otro</option>
+      </select>
+      <select name="giro" required>
+        <option value="">Giro de negocio</option>
+        <option value="Restaurante">Restaurante</option>
+        <option value="Moda">Moda</option>
+        <option value="Servicios">Servicios</option>
+        <option value="Otro">Otro</option>
+      </select>
+      <input type="date" name="fecha" required>
+      <input type="time" name="hora" required>
+      <textarea name="comentarios" placeholder="Comentarios"></textarea>
+      <button type="submit">Agendar cita</button>
+      <div class="confirmation" id="confirmacion">✅ Gracias, tu cita ha sido agendada.<br>⏳ Redirigiendo al inicio...<br>🎉 Te contactaremos pronto.</div>
+    </form>
+  </section>
+
+  <script>
+    // Acordeón
+    document.querySelectorAll('.accordion').forEach(button => {
+      button.addEventListener('click', () => {
+        button.classList.toggle('active');
+        const panel = button.nextElementSibling;
+        panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+      });
+    });
+
+    const form = document.getElementById('appointmentForm');
+    const confirmacion = document.getElementById('confirmacion');
+
+    const citasOcupadas = [
+      { fecha: '2025-04-12', hora: '15:00' },
+      { fecha: '2025-04-13', hora: '11:00' }
+    ];
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const data = new FormData(form);
+      const fecha = data.get('fecha');
+      const hora = data.get('hora');
+
+      const citaYaOcupada = citasOcupadas.some(cita => cita.fecha === fecha && cita.hora === hora);
+      if (citaYaOcupada) {
+        alert('La fecha y hora seleccionadas ya están ocupadas. Por favor elige otra.');
+        return;
+      }
+
+      try {
+        await fetch('https://script.google.com/macros/s/AKfycbx8bRMSiENgH6Ly-AbPtBILlyhPD-v-slecM39mTQDb4z0Zx8rqvpcodfUaPScnIqyw/exec', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(Object.fromEntries(data))
+        });
+
+        confirmacion.style.display = 'block';
+        setTimeout(() => {
+          confirmacion.style.display = 'none';
+          form.reset();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 5000);
+      } catch (err) {
+        alert('Error al agendar. Intenta nuevamente.');
+      }
+    });
+  </script>
+</body>
+</html>
