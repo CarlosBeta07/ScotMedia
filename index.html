@@ -11,23 +11,24 @@
     }
     body {
       margin: 0;
-      background-image: url('https://github.com/CarlosBeta07/ScotMedia/blob/main/Fondo.png?raw=true');
-      background-size: cover;
-      background-attachment: fixed;
-      color: #333;
+      background: linear-gradient(to bottom, #1a1a2e, #16213e);
+      color: #fff;
     }
     header, section {
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.05);
       margin: 20px;
       padding: 20px;
       border-radius: 15px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
     header img {
       width: 150px;
     }
     h1, h2 {
-      color: #2c3e50;
+      color: #f9ca24;
+    }
+    p, label, select, input, textarea {
+      color: #f1f1f1;
     }
     .accordion {
       cursor: pointer;
@@ -36,17 +37,20 @@
       text-align: left;
       outline: none;
       font-size: 1.1rem;
-      background: #f1f1f1;
+      background: #273c75;
+      color: #fff;
       border-radius: 10px;
       margin-bottom: 10px;
+      transition: background 0.3s;
     }
     .accordion.active, .accordion:hover {
-      background: #ddd;
+      background: #40739e;
     }
     .panel {
       padding: 0 15px;
       display: none;
       overflow: hidden;
+      color: #dcdde1;
     }
     img.package {
       max-width: 100%;
@@ -59,11 +63,13 @@
     input, select, textarea {
       padding: 10px;
       margin-bottom: 10px;
-      border: 1px solid #ccc;
+      border: 1px solid #7f8fa6;
       border-radius: 10px;
+      background-color: #2f3640;
+      color: white;
     }
     button {
-      background-color: #27ae60;
+      background-color: #44bd32;
       color: white;
       padding: 10px;
       border: none;
@@ -71,10 +77,10 @@
       cursor: pointer;
     }
     button:hover {
-      background-color: #2ecc71;
+      background-color: #4cd137;
     }
     .confirmation {
-      color: green;
+      color: #00ff88;
       margin-top: 10px;
       font-weight: bold;
       display: none;
@@ -87,7 +93,7 @@
       color: red;
     }
     .available {
-      color: green;
+      color: #00ff88;
     }
   </style>
 </head>
@@ -105,7 +111,7 @@
   <section>
     <button class="accordion">📎 Portfolio</button>
     <div class="panel">
-      <p><a href="https://github.com/CarlosBeta07/ScotMedia/blob/main/Portfolio.pdf" target="_blank">Descargar aquí Portfolio</a></p>
+      <p><a href="https://github.com/CarlosBeta07/ScotMedia/blob/main/Portfolio.pdf" target="_blank" style="color: #00a8ff">Descargar aquí Portfolio</a></p>
     </div>
 
     <button class="accordion">📦 Paquete de redes</button>
@@ -147,7 +153,6 @@
   </section>
 
   <script>
-    // Acordeón
     document.querySelectorAll('.accordion').forEach(button => {
       button.addEventListener('click', () => {
         button.classList.toggle('active');
