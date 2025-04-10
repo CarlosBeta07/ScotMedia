@@ -201,44 +201,36 @@
       { fecha: '2025-04-13', hora: '11:00' }
     ];
 
-form.addEventListener('submit', async function(e) {
-  e.preventDefault();
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
 
-  const formData = new FormData(form);
-  const data = {};
-  formData.forEach((value, key) => {
-    data[key] = value;
-  });
+      const data = new FormData(form);
+      const fecha = data.get('fecha');
+      const hora = data.get('hora');
 
-  const fecha = data.fecha;
-  const hora = data.hora;
+      const citaYaOcupada = citasOcupadas.some(cita => cita.fecha === fecha && cita.hora === hora);
+      if (citaYaOcupada) {
+        alert('La fecha y hora seleccionadas ya están ocupadas. Por favor elige otra.');
+        return;
+      }
 
-  const citaYaOcupada = citasOcupadas.some(cita => cita.fecha === fecha && cita.hora === hora);
-  if (citaYaOcupada) {
-    alert('La fecha y hora seleccionadas ya están ocupadas. Por favor elige otra.');
-    return;
-  }
+      try {
+        // Enviar los datos al Google Apps Script
+        await fetch('https://script.google.com/macros/s/AKfycbxO3fD45Ug1o4KU9Ur18SzhCwTxUxUqGSlrWhcs1njJMGbV3mNLQWeDbZqlZvpwHVKG/exec', {
+          method: 'POST',
+          body: new URLSearchParams([...data])
+        });
 
-  try {
-    await fetch('https://script.google.com/macros/s/AKfycby8Y4HLVwTnz78ho1eNSl92B4YJ54G5RTzKQnHIvSk70qXX6hupSHIgQ8PLaOqy12Dy/exec', {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json'
+        confirmacion.style.display = 'block';
+        setTimeout(() => {
+          confirmacion.style.display = 'none';
+          form.reset();
+          window.location.href = 'https://www.instagram.com/scotmedia.agency/';
+        }, 5000);
+      } catch (err) {
+        alert('Error al agendar. Intenta nuevamente.');
       }
     });
-
-    confirmacion.style.display = 'block';
-    setTimeout(() => {
-      confirmacion.style.display = 'none';
-      form.reset();
-      window.location.href = 'https://www.instagram.com/scotmedia.agency/';
-    }, 5000);
-  } catch (err) {
-    alert('Error al agendar. Intenta nuevamente.');
-    console.error(err);
-  }
-});
 
     window.addEventListener('load', () => {
       const now = new Date().toLocaleString('en-US', { timeZone: 'America/Ojinaga' });
