@@ -1,239 +1,229 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Agenda Scot Media</title>
-  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scot Media - Agenda tu cita</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <style>
-    * {
-      box-sizing: border-box;
-      font-family: 'Raleway', sans-serif;
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap');
+
+    :root {
+      --morado: #241A35;
+      --dorado: #B29221;
     }
-    body {
+
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    body {
       background: url('https://github.com/CarlosBeta07/ScotMedia/blob/main/Fondo.png?raw=true') no-repeat center center fixed;
       background-size: cover;
-      color: #fff;
+      color: white;
+      padding: 1rem;
     }
+
     header, section {
-      background: rgba(0, 0, 0, 0.6);
-      margin: 20px;
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-      text-align: center;
+      max-width: 900px;
+      margin: 0 auto 2rem auto;
+      background-color: rgba(36, 26, 53, 0.9);
+      border-radius: 1rem;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+      padding: 2rem;
     }
+
     header img {
-      width: 300px;
+      width: 200px;
       display: block;
-      margin: 0 auto 20px;
+      margin: 0 auto 1rem;
     }
+
     h1, h2 {
-      color: #001233;
-      font-size: 2.8rem;
+      text-align: center;
+      color: var(--dorado);
+      margin-bottom: 1rem;
     }
-    h2 {
-      font-size: 2.8rem;
-    }
-    p, label, select, input, textarea {
-      color: #f1f1f1;
-    }
+
     .accordion {
-      cursor: pointer;
-      padding: 15px;
+      background-color: #2a1f3f;
       border: none;
-      text-align: left;
-      outline: none;
-      font-size: 1.1rem;
-      background: #273c75;
-      color: #fff;
-      border-radius: 10px;
-      margin-bottom: 10px;
-      transition: background 0.3s;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      color: white;
+      font-weight: bold;
     }
-    .accordion span {
-      display: inline-block;
-      transition: transform 0.3s ease;
-    }
-    .accordion.active span {
-      transform: rotate(90deg);
-    }
-    .accordion.active, .accordion:hover {
-      background: #40739e;
-    }
+
     .panel {
-      padding: 0 15px;
       display: none;
-      overflow: hidden;
-      color: #dcdde1;
+      padding: 1rem;
+      background-color: #1c1430;
+      border-radius: 0.5rem;
+      margin-bottom: 1rem;
     }
-    img.package {
+
+    .panel img, .panel iframe {
       max-width: 100%;
-      border-radius: 10px;
+      border-radius: 0.5rem;
+      margin-top: 1rem;
     }
+
     form {
       display: flex;
       flex-direction: column;
+      gap: 1rem;
     }
+
     input, select, textarea {
-      padding: 10px;
-      margin-bottom: 10px;
-      border: 1px solid #7f8fa6;
-      border-radius: 10px;
-      background-color: white;
-      color: black;
-    }
-    input[type="date"], input[type="time"] {
-      width: 150px;
-    }
-    input[type="date"]::-webkit-calendar-picker-indicator,
-    input[type="time"]::-webkit-calendar-picker-indicator {
-      font-size: 24px;
-      opacity: 1;
-      filter: invert(0);
-    }
-    button {
-      background-color: #44bd32;
-      color: white;
-      padding: 10px;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
       border: none;
-      border-radius: 10px;
-      cursor: pointer;
+      font-size: 1rem;
     }
-    button:hover {
-      background-color: #4cd137;
-    }
-    .confirmation {
-      color: #00ff88;
-      margin-top: 10px;
+
+    button {
+      padding: 1rem;
+      background-color: var(--dorado);
+      color: var(--morado);
+      border: none;
+      border-radius: 0.5rem;
       font-weight: bold;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .card {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+
+    .success-message {
+      background-color: #28a745;
+      color: white;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      text-align: center;
       display: none;
+      margin-top: 1rem;
     }
-    .date-status {
-      font-size: 0.9rem;
-      margin-top: -8px;
-    }
-    .taken {
-      color: red;
-    }
-    .available {
-      color: #00ff88;
-    }
-    .descripcion-quienes-somos {
-      font-size: 1.8rem;
+
+    @media (max-width: 600px) {
+      header, section {
+        padding: 1rem;
+      }
     }
   </style>
 </head>
 <body>
   <header>
-    <img src="https://github.com/CarlosBeta07/ScotMedia/blob/main/Logo.png?raw=true" alt="Logo Scot Media">
-    <h1>Agéndate con nosotros</h1>
+    <img src="https://github.com/CarlosBeta07/ScotMedia/blob/main/Logo.png?raw=true" alt="Logo Scot Media" />
+    <h1>Scot Media</h1>
+    <p style="text-align: center;">Tu agencia de marketing digital especializada en redes sociales y video.</p>
   </header>
 
   <section>
     <h2>¿Quiénes somos?</h2>
-    <p class="descripcion-quienes-somos">Somos una agencia de marketing digital especializada en redes sociales, diseño de sitios web, páginas de aterrizaje, automatizaciones y branding.</p>
+    <p>Somos una empresa creativa de marketing digital dedicada a impulsar tu marca con estrategias efectivas en redes sociales, producción de contenido visual y campañas personalizadas.</p>
   </section>
 
   <section>
-    <button class="accordion">➡️ Portfolio <span>▶️</span></button>
+    <h2>Servicios</h2>
+
+    <button class="accordion">Portfolio</button>
     <div class="panel">
-      <img src="https://github.com/CarlosBeta07/ScotMedia/blob/main/Portfolio.jpg?raw=true" alt="Portfolio" class="package">
+      <a href="https://github.com/CarlosBeta07/ScotMedia/blob/main/Portfolio.pdf?raw=true" target="_blank">Ver portfolio completo</a>
     </div>
 
-    <button class="accordion">➡️ Paquete de redes <span>▶️</span></button>
+    <button class="accordion">Paquetes de redes</button>
     <div class="panel">
-      <img src="https://github.com/CarlosBeta07/ScotMedia/blob/main/Paquetes%20de%20redes.jpeg?raw=true" class="package">
+      <img src="https://github.com/CarlosBeta07/ScotMedia/blob/main/Paquetes%20de%20redes.jpeg?raw=true" alt="Paquetes de redes">
     </div>
 
-    <button class="accordion">➡️ Paquete de $3500 <span>▶️</span></button>
+    <button class="accordion">Paquete $3,500 pesos</button>
     <div class="panel">
-      <img src="https://github.com/CarlosBeta07/ScotMedia/blob/main/3500.jpg?raw=true" class="package">
+      <img src="https://github.com/CarlosBeta07/ScotMedia/blob/main/3500.jpg?raw=true" alt="Paquete 3500">
+    </div>
+
+    <button class="accordion">Metodología de trabajo</button>
+    <div class="panel">
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/82AinLWmhwg?si=QzypxNPjaiECt1gt" title="Metodología Scot Media" frameborder="0" allowfullscreen></iframe>
     </div>
   </section>
 
   <section>
-    <h2>📅 Agenda tu cita</h2>
-    <form id="appointmentForm">
-      <input type="text" name="nombre" placeholder="Nombre completo" required>
-      <input type="tel" name="telefono" placeholder="Teléfono" required>
-      <input type="email" name="correo" placeholder="Correo electrónico" required>
-      <select name="sexo" required>
-        <option value="">Sexo</option>
-        <option value="Femenino">Femenino</option>
-        <option value="Masculino">Masculino</option>
-        <option value="Otro">Otro</option>
-      </select>
-      <select name="giro" required>
-        <option value="">Giro de negocio</option>
-        <option value="Restaurante">Restaurante</option>
-        <option value="Moda">Moda</option>
-        <option value="Servicios">Servicios</option>
-        <option value="Otro">Otro</option>
-      </select>
-      <input type="date" name="fecha" required>
-      <input type="time" name="hora" required>
-      <textarea name="comentarios" placeholder="Comentarios"></textarea>
-      <button type="submit">Agendar cita</button>
-      <div class="confirmation" id="confirmacion">✅ Gracias, tu cita ha sido agendada.<br>⏳ Redirigiendo al inicio...<br>🎉 Te contactaremos pronto.</div>
-    </form>
+    <h2>Agenda tu cita</h2>
+    <div class="card">
+      <form id="agendaForm">
+        <input type="text" name="nombre" placeholder="Nombre completo" required />
+        <input type="text" name="lada" placeholder="Lada" required />
+        <input type="tel" name="telefono" placeholder="Teléfono" required />
+        <input type="email" name="correo" placeholder="Correo electrónico" required />
+        <select name="sexo" required>
+          <option value="">Sexo</option>
+          <option value="Femenino">Femenino</option>
+          <option value="Masculino">Masculino</option>
+          <option value="Otro">Otro</option>
+        </select>
+        <select name="giro" required>
+          <option value="">Giro de Negocio</option>
+          <option value="Restaurante">Restaurante</option>
+          <option value="Moda">Moda</option>
+          <option value="Servicios">Servicios</option>
+          <option value="Educación">Educación</option>
+          <option value="Otro">Otro</option>
+        </select>
+        <input type="date" name="fecha" required />
+        <input type="time" name="hora" required />
+        <textarea name="comentarios" rows="3" placeholder="Comentarios adicionales (opcional)"></textarea>
+        <button type="submit">Agendar Cita</button>
+      </form>
+      <div id="mensajeExito" class="success-message">
+        👍 Gracias, tu cita ha sido agendada.<br/>
+        ⏳ Redirigiendo al inicio...<br/>
+        🎉 Te contactaremos pronto.
+      </div>
+    </div>
   </section>
 
   <script>
-    document.querySelectorAll('.accordion').forEach(button => {
-      button.addEventListener('click', () => {
-        button.classList.toggle('active');
-        const panel = button.nextElementSibling;
-        const icon = button.querySelector('span');
+    document.querySelectorAll('.accordion').forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.classList.toggle('active');
+        const panel = btn.nextElementSibling;
         panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
       });
     });
 
-    const form = document.getElementById('appointmentForm');
-    const confirmacion = document.getElementById('confirmacion');
+    const form = document.getElementById('agendaForm');
+    const mensaje = document.getElementById('mensajeExito');
 
-    const citasOcupadas = [
-      { fecha: '2025-04-12', hora: '15:00' },
-      { fecha: '2025-04-13', hora: '11:00' }
-    ];
-
-    form.addEventListener('submit', async function(e) {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-
-      const data = new FormData(form);
-      const fecha = data.get('fecha');
-      const hora = data.get('hora');
-
-      const citaYaOcupada = citasOcupadas.some(cita => cita.fecha === fecha && cita.hora === hora);
-      if (citaYaOcupada) {
-        alert('La fecha y hora seleccionadas ya están ocupadas. Por favor elige otra.');
-        return;
-      }
+      const formData = new FormData(form);
 
       try {
-        await fetch('https://script.google.com/macros/s/AKfycbypjwkshzTEeqIaVoqcT4gKmlW9wyO77ml30g_7N34I8P5R1zCzkqvUReg89lszKgLKIA/exec', {
+        await fetch("https://script.google.com/macros/s/AKfycbw1rfy5-AfoL3bGAMawfV8eGiCm4lwbiCf19g1jXs1N-ECpUfWkFe1gT_pADsQITtRarA/exec", {
           method: 'POST',
-          body: new URLSearchParams([...data])
+          body: formData
         });
 
-        confirmacion.style.display = 'block';
-        setTimeout(() => {
-          confirmacion.style.display = 'none';
-          form.reset();
-          window.location.href = 'https://www.instagram.com/scotmedia.agency/';
-        }, 5000);
-      } catch (err) {
-        alert('Error al agendar. Intenta nuevamente.');
-      }
-    });
+        mensaje.style.display = 'block';
+        form.reset();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    window.addEventListener('load', () => {
-      const now = new Date().toLocaleString('en-US', { timeZone: 'America/Ojinaga' });
-      console.log('Ciudad Juárez time on load:', now);
+        setTimeout(() => {
+          mensaje.style.display = 'none';
+        }, 5000);
+      } catch (error) {
+        alert('Hubo un error al enviar los datos. Intenta más tarde.');
+      }
     });
   </script>
 </body>
