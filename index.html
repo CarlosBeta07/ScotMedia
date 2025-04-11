@@ -1,34 +1,240 @@
-function doPost(e) {
-  try {
-    // Leer los datos JSON de la solicitud
-    const data = JSON.parse(e.postData.contents); // Parsear el contenido como JSON
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agenda Scot Media</title>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Raleway', sans-serif;
+    }
+    body {
+      margin: 0;
+      background: url('https://github.com/CarlosBeta07/ScotMedia/blob/main/Fondo.png?raw=true') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+    }
+    header, section {
+      background: rgba(0, 0, 0, 0.6);
+      margin: 20px;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+      text-align: center;
+    }
+    header img {
+      width: 300px;
+      display: block;
+      margin: 0 auto 20px;
+    }
+    h1, h2 {
+      color: #001233;
+      font-size: 2.8rem;
+    }
+    h2 {
+      font-size: 2.8rem;
+    }
+    p, label, select, input, textarea {
+      color: #f1f1f1;
+    }
+    .accordion {
+      cursor: pointer;
+      padding: 15px;
+      border: none;
+      text-align: left;
+      outline: none;
+      font-size: 1.1rem;
+      background: #273c75;
+      color: #fff;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      transition: background 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .accordion span {
+      display: inline-block;
+      transition: transform 0.3s ease;
+    }
+    .accordion.active span {
+      transform: rotate(90deg);
+    }
+    .accordion.active, .accordion:hover {
+      background: #40739e;
+    }
+    .panel {
+      padding: 0 15px;
+      display: none;
+      overflow: hidden;
+      color: #dcdde1;
+    }
+    img.package {
+      max-width: 100%;
+      border-radius: 10px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    input, select, textarea {
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #7f8fa6;
+      border-radius: 10px;
+      background-color: white;
+      color: black;
+    }
+    input[type="date"], input[type="time"] {
+      width: 150px;
+    }
+    input[type="date"]::-webkit-calendar-picker-indicator,
+    input[type="time"]::-webkit-calendar-picker-indicator {
+      font-size: 24px;
+      opacity: 1;
+      filter: invert(0);
+    }
+    button {
+      background-color: #44bd32;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #4cd137;
+    }
+    .confirmation {
+      color: #00ff88;
+      margin-top: 10px;
+      font-weight: bold;
+      display: none;
+    }
+    .date-status {
+      font-size: 0.9rem;
+      margin-top: -8px;
+    }
+    .taken {
+      color: red;
+    }
+    .available {
+      color: #00ff88;
+    }
+    .descripcion-quienes-somos {
+      font-size: 1.8rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="https://github.com/CarlosBeta07/ScotMedia/blob/main/Logo.png?raw=true" alt="Logo Scot Media">
+    <h1>Agéndate con nosotros</h1>
+  </header>
 
-    // Obtener la hoja de Google Sheets
-    const ss = SpreadsheetApp.getActiveSpreadsheet();
-    const sheet = ss.getSheetByName("Datos"); // Asegúrate de que el nombre de la hoja sea "Datos"
+  <section>
+    <h2>¿Quiénes somos?</h2>
+    <p class="descripcion-quienes-somos">Somos una agencia de marketing digital especializada en redes sociales, diseño de sitios web, páginas de aterrizaje, automatizaciones y branding.</p>
+  </section>
 
-    // Agregar los datos a la hoja
-    sheet.appendRow([
-      new Date(), // Fecha de la solicitud
-      data.nombre,
-      data.telefono,
-      data.correo,
-      data.sexo,
-      data.giro,
-      data.fecha,
-      data.hora,
-      data.comentarios
-    ]);
+  <section>
+    <button class="accordion">➡️ Portfolio <span>▶️</span></button>
+    <div class="panel">
+      <img src="https://github.com/CarlosBeta07/ScotMedia/blob/main/Portfolio.jpg?raw=true" alt="Portfolio" class="package">
+    </div>
 
-    // Devolver una respuesta exitosa
-    return ContentService.createTextOutput(
-      JSON.stringify({ result: "success", data: data })
-    ).setMimeType(ContentService.MimeType.JSON);
+    <button class="accordion">➡️ Paquete de redes <span>▶️</span></button>
+    <div class="panel">
+      <img src="https://github.com/CarlosBeta07/ScotMedia/blob/main/Paquetes%20de%20redes.jpeg?raw=true" class="package">
+    </div>
 
-  } catch (error) {
-    // Manejo de errores
-    return ContentService.createTextOutput(
-      JSON.stringify({ result: "error", message: error.message })
-    ).setMimeType(ContentService.MimeType.JSON);
-  }
-}
+    <button class="accordion">➡️ Paquete de $3500 <span>▶️</span></button>
+    <div class="panel">
+      <img src="https://github.com/CarlosBeta07/ScotMedia/blob/main/3500.jpg?raw=true" class="package">
+    </div>
+  </section>
+
+  <section>
+    <h2>📅 Agenda tu cita</h2>
+    <form id="appointmentForm">
+      <input type="text" name="nombre" placeholder="Nombre completo" required>
+      <input type="tel" name="telefono" placeholder="Teléfono" required>
+      <input type="email" name="correo" placeholder="Correo electrónico" required>
+      <select name="sexo" required>
+        <option value="">Sexo</option>
+        <option value="Femenino">Femenino</option>
+        <option value="Masculino">Masculino</option>
+        <option value="Otro">Otro</option>
+      </select>
+      <select name="giro" required>
+        <option value="">Giro de negocio</option>
+        <option value="Restaurante">Restaurante</option>
+        <option value="Moda">Moda</option>
+        <option value="Servicios">Servicios</option>
+        <option value="Otro">Otro</option>
+      </select>
+      <input type="date" name="fecha" required>
+      <input type="time" name="hora" required>
+      <textarea name="comentarios" placeholder="Comentarios"></textarea>
+      <button type="submit">Agendar cita</button>
+      <div class="confirmation" id="confirmacion">✅ Gracias, tu cita ha sido agendada.<br>⏳ Redirigiendo al inicio...<br>🎉 Te contactaremos pronto.</div>
+    </form>
+  </section>
+
+  <script>
+    document.querySelectorAll('.accordion').forEach(button => {
+      button.addEventListener('click', () => {
+        button.classList.toggle('active');
+        const panel = button.nextElementSibling;
+        const icon = button.querySelector('span');
+        panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+      });
+    });
+
+    const form = document.getElementById('appointmentForm');
+    const confirmacion = document.getElementById('confirmacion');
+
+    const citasOcupadas = [
+      { fecha: '2025-04-12', hora: '15:00' },
+      { fecha: '2025-04-13', hora: '11:00' }
+    ];
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const data = new FormData(form);
+      const fecha = data.get('fecha');
+      const hora = data.get('hora');
+
+      const citaYaOcupada = citasOcupadas.some(cita => cita.fecha === fecha && cita.hora === hora);
+      if (citaYaOcupada) {
+        alert('La fecha y hora seleccionadas ya están ocupadas. Por favor elige otra.');
+        return;
+      }
+
+      try {
+        await fetch('https://script.google.com/macros/s/AKfycbypjwkshzTEeqIaVoqcT4gKmlW9wyO77ml30g_7N34I8P5R1zCzkqvUReg89lszKgLKIA/exec', {
+          method: 'POST',
+          body: new URLSearchParams([...data])
+        });
+
+        confirmacion.style.display = 'block';
+        setTimeout(() => {
+          confirmacion.style.display = 'none';
+          form.reset();
+          window.location.href = 'https://www.instagram.com/scotmedia.agency/';
+        }, 5000);
+      } catch (err) {
+        alert('Error al agendar. Intenta nuevamente.');
+      }
+    });
+
+    window.addEventListener('load', () => {
+      const now = new Date().toLocaleString('en-US', { timeZone: 'America/Ojinaga' });
+      console.log('Ciudad Juárez time on load:', now);
+    });
+  </script>
+</body>
+</html>
